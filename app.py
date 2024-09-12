@@ -1,5 +1,4 @@
-import json
-from flask import Flask, jsonify, request, abort
+from flask import Flask, jsonify, request, abort, render_template
 from flask_cors import CORS
 
 app = Flask(__name__)
@@ -15,6 +14,11 @@ ar = [
 # Helper function to find the next available ID
 def get_next_id():
     return max(item['id'] for item in ar) + 1 if ar else 1
+
+# Home route to render the front-end
+@app.route('/')
+def home():
+    return render_template('index.html')
 
 # READ: Get all items
 @app.route('/users', methods=['GET'])
@@ -69,4 +73,4 @@ def delete_user(user_id):
     return '', 204
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0', port=8000, debug=True)
